@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07110a">
+<title>GREEN LIVE AI</title>
+<style>
+:root{color-scheme:dark;--green:#22e65b;--bg:#050907;--panel:#0d1711;--muted:#9ba99f}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#12351d 0,transparent 35%),var(--bg);color:#f4fff6;font:16px system-ui,Arial,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 15px 40px}.brand{display:flex;align-items:center;gap:12px;margin:10px 0 24px}.logo{width:46px;height:46px;border-radius:14px;background:var(--green);color:#041007;display:grid;place-items:center;font-weight:900;font-size:25px}.brand h1{font-size:22px;line-height:1;margin:0}.brand small{color:var(--green);letter-spacing:2px}
+h2{font-size:19px;margin:0 0 14px}.panel{background:linear-gradient(145deg,#101d14,#09100c);border:1px solid #245c34;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 8px 30px #0005}.muted{color:var(--muted);font-size:13px}.field{display:block;margin:12px 0 6px;color:#c8d5cb;font-size:14px}input,select,button{width:100%;border-radius:12px;padding:13px 14px;font:inherit}input,select{background:#080e0a;border:1px solid #34483a;color:white;outline:none}input:focus,select:focus{border-color:var(--green)}button{border:0;background:var(--green);color:#041007;font-weight:800;margin-top:12px;cursor:pointer}button.secondary{background:#17251b;color:#eaffee;border:1px solid #365a40}button:disabled{opacity:.45}.status{display:flex;align-items:center;gap:8px;color:#b6c8ba;font-size:13px;margin-top:12px}.dot{width:9px;height:9px;border-radius:50%;background:#89958b}.dot.on{background:var(--green);box-shadow:0 0 10px var(--green)}.toggle{display:flex;align-items:center;gap:10px;margin-top:14px}.toggle input{width:20px;height:20px;accent-color:var(--green)}.chat{height:220px;overflow:auto;background:#060b08;border:1px solid #26382b;border-radius:12px;padding:12px}.msg{padding:9px 10px;margin:7px 0;border-radius:10px;background:#111d15;font-size:14px}.msg b{color:var(--green)}.msg.ai{border-left:3px solid var(--green)}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.notice{border:1px solid #705b22;background:#211b0b;color:#f2df9b;border-radius:12px;padding:12px;font-size:13px;line-height:1.45}.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
+</style>
+</head>
+<body><main>
+<header class="brand"><div class="logo">▶</div><div><h1>GREEN LIVE AI</h1><small>SEU ASSISTENTE DE LIVE</small></div></header>
+<section class="panel">
+<h2>☢️ Configurar o Rick</h2>
+<label class="field" for="handle">Seu @ do TikTok</label><input id="handle" placeholder="@seuusuario" autocomplete="off">
+<div class="row"><div><label class="field" for="voice">Voz</label><select id="voice"><option value="male">Masculina (sintética)</option><option value="female">Feminina (sintética)</option></select></div><div><label class="field" for="rate">Velocidade</label><select id="rate"><option value="1">Normal</option><option value="1.12">Rápida</option><option value=".9">Lenta</option></select></div></div>
+<label class="toggle"><input id="auto" type="checkbox" checked> Responder automaticamente no modo de teste</label>
+<button id="connect">Preparar minha LIVE</button><div class="status"><span class="dot" id="dot"></span><span id="status">Ainda não conectado — modo de demonstração</span></div>
+</section>
+<section class="panel">
+<h2>💬 Testar respostas da IA</h2><p class="muted">Digite um comentário como se fosse de alguém na sua LIVE. O assistente cria uma resposta e fala em voz alta.</p>
+<div class="chat" id="chat" aria-live="polite"><div class="msg"><b>Sistema:</b> Bem-vindo! Envie um comentário para testar.</div></div>
+<label class="field" for="comment">Comentário de teste</label><input id="comment" placeholder="Ex.: Rick, qual seu nome?">
+<div class="row"><button id="send">Enviar comentário</button><button class="secondary" id="stop">Parar áudio</button></div>
+</section>
+<div class="notice"><b>Importante:</b> Esta é a primeira versão demonstrativa. Ela ainda não acessa comentários reais do TikTok nem conecta sua conta. O campo @ é apenas para configuração visual. A leitura de comentários reais exige uma integração compatível com o TikTok LIVE e pode depender das permissões da plataforma. A voz é sintética e não é uma reprodução oficial da voz do personagem Rick.</div>
+<p class="foot">GREEN LIVE AI • Protótipo gratuito para testar no navegador do celular</p>
+</main>
+<script>
+const $=id=>document.getElementById(id), chat=$('chat');
+function add(who,text,ai=false){const d=document.createElement('div');d.className='msg'+(ai?' ai':'');const b=document.createElement('b');b.textContent=who+': ';d.append(b,document.createTextNode(text));chat.append(d);chat.scrollTop=chat.scrollHeight}
+function answer(s){const t=s.toLowerCase();if(/oi|olá|ola|eae|salve/.test(t))return 'Ah, ótimo, mais alguém chegou. Bem-vindo à live!';if(/nome/.test(t))return 'Pode me chamar de Rick. Próxima pergunta, por favor.';if(/idade|quantos anos/.test(t))return 'Idade é só um número. E eu não tenho paciência para matemática agora.';if(/amor|namor/.test(t))return 'Relacionamentos? Uma complicação interdimensional.';if(/jogo|game/.test(t))return 'Esse assunto parece interessante. Conta mais aí no chat.';if(/tchau|flw|fui/.test(t))return 'Até mais. Tente não destruir o universo enquanto isso.';return 'Boa pergunta! Ainda estou pensando nisso. Manda mais uma aí.'}
+function speak(text){if(!('speechSynthesis'in window)){add('Sistema','Seu navegador não oferece leitura de voz.');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';u.rate=Number($('rate').value);const voices=speechSynthesis.getVoices();const chosen=voices.find(v=>v.lang.toLowerCase().startsWith('pt-br'))||voices.find(v=>v.lang.toLowerCase().startsWith('pt'));if(chosen)u.voice=chosen;u.pitch=$('voice').value==='male'?.78:1.12;speechSynthesis.speak(u)}
+$('connect').onclick=()=>{const h=$('handle').value.trim();if(h&&!/^@/.test(h))$('handle').value='@'+h;$('dot').classList.add('on');$('status').textContent='Modo de demonstração pronto neste aparelho';add('Sistema','Demonstração preparada. Isso ainda não conecta ao TikTok.');};
+$('send').onclick=()=>{const s=$('comment').value.trim();if(!s)return;add('Visitante',s);$('comment').value='';if($('auto').checked){const r=answer(s);add('Rick (IA)',r,true);speak(r)}};
+$('comment').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click()});
+$('stop').onclick=()=>{if('speechSynthesis'in window)speechSynthesis.cancel()};
+if('speechSynthesis'in window)speechSynthesis.getVoices();
+</script></body></html>
